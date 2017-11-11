@@ -33,46 +33,63 @@ T* insertionSort(int size, T array[])
 }
 
 template <typename T>
-void quickSortRecursive(int size, T* array)
+int partition(int left, int right, T* array)
 {
-  T mid = array[size-1];
-  int i = 0, j = size - 1;
-  while (i < j)
+  T pivot = array[right];
+  int i = left - 1;
+  for (int j = left; j < right; j++)
   {
-    while (array[i] < mid)
+    if (array[j] < pivot)
+    {
       i++;
-    while (array[j] > mid)
-      j--;
-    if (i < j)
       swapElements(array[i], array[j]);
+    }
   }
-  if (j > 1) quickSortRecursive(j, array);
-  if (size - (i + 1) > 1) quickSortRecursive(size - i, array + i);
+  swapElements(array[i + 1], array[right]);
+  return i + 1;
+}
+
+template <typename T>
+void quickSortRecursive(int left, int right, T* array)
+{
+  if (left < right)
+  {
+    int p = partition(left, right, array);
+    quickSortRecursive(left, p - 1, array);
+    quickSortRecursive(p + 1, right, array);
+  }
 }
 
 int main(int argc, char * argv[])
 {
   int size = 10;
+
   int array_int[] = {4, 5, 6, 7, 1, 3, 2, 9, 8, 0};
   float array_float[] = {4., 5., 6., 7., 1., 3., 2., 9., 8., 0.};
   double array_double[] = {4., 5., 6., 7., 1., 3., 2., 9., 8., 0.};
+
   cout << "Array of integers: ";
   printArray(size, array_int);
+
   cout << "Array of floats: ";
   printArray(size, array_float);
+
   cout << "Array of doubles: ";
   printArray(size, array_double);
 
   cout << "----------" << endl;
 
   cout << "Sorted array of integers: ";
-  quickSortRecursive(size, array_int);
+  quickSortRecursive(0, size - 1, array_int);
   printArray(size, array_int);
+
   cout << "Sorted array of floats: ";
-  quickSortRecursive(size, array_float);
+  quickSortRecursive(0, size - 1, array_float);
   printArray(size, array_float);
+
   cout << "Sorted array of doubles: ";
-  quickSortRecursive(size, array_double);
+  quickSortRecursive(0, size - 1, array_double);
   printArray(size, array_double);
+
   return 0;
 }
