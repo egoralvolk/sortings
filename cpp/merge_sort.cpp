@@ -45,8 +45,8 @@ void merge(int left, int mid, int right, T* array)
     k++;
   }
 
-  for(int k = 0; k < size; k++)
-    array[k + left] = arr[k];
+  for(int z = 0; z < size; z++)
+    array[z + left] = arr[z];
 }
 
 template <typename T>
